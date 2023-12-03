@@ -12,6 +12,8 @@ public class RankingController {
 
     @Autowired
     private IRankingServiceImpl service;
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/ranking")
     public ResponseEntity<Ranking> inserirPontuacao(@RequestBody Ranking pontuacao) {
         service.inserirPontuacao(pontuacao);
