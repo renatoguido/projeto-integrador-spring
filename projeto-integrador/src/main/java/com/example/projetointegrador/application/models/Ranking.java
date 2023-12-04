@@ -6,22 +6,23 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-@Entity // Tabela armazenavel
+@Entity
 @Table(name="tb_raking")
 public class Ranking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_ranking")
-    private Long id;  // Alterado para Long para ser compatível com a geração automática de IDs
+    private Long id;
     private int pontuacao;
 
 
-    @ManyToOne
-    @JoinColumn(name = "id_jogador")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_jogador", nullable = false)
     private Jogador jogador;
-    @ManyToOne
-    @JoinColumn(name = "id_jogo")
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_jogo", nullable = false)
     private Jogos jogo;
 
 

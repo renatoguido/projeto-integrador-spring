@@ -15,7 +15,7 @@ public class Jogos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_jogo")
-    private Long id;  // Alterado para Long para ser compatível com a geração automática de IDs
+    private Long id;
     @Column(name="nome_jogo", length = 100, nullable = false)
     private String nomeDoJogo;
     @Column(name="nome_autor", length = 100, nullable = false)

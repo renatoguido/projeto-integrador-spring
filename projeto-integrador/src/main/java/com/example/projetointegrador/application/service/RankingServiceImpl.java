@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RankingServiceImpl implements IRankingServiceImpl{
@@ -24,34 +23,37 @@ public class RankingServiceImpl implements IRankingServiceImpl{
     private JogadorDAO jogadorDAO;
 
     @Override
-    public void inserirPontuacao(Ranking pontuacao) {
-        if (pontuacao.getJogador() != null && pontuacao.getJogador().getId() != null
-                && pontuacao.getJogo() != null && pontuacao.getJogo().getId() != null) {
+    public Ranking criarRanking(Ranking ranking) {
 
-            Jogador jogador = jogadorDAO.findById(pontuacao.getJogador().getId().intValue())
+            Jogador jogador = jogadorDAO.findById(ranking.getJogador().getId().intValue())
                     .orElseThrow(() -> new EntityNotFoundException("Jogador não encontrado"));
 
-            Jogos jogo = jogosDAO.findById(pontuacao.getJogo().getId().intValue())
+            Jogos jogo = jogosDAO.findById(ranking.getJogo().getId().intValue())
                     .orElseThrow(() -> new EntityNotFoundException("Jogo não encontrado"));
 
-            pontuacao.setJogador(jogador);
-            pontuacao.setJogo(jogo);
+            var rankingCreated = new Ranking();
+            rankingCreated.setJogador(jogador);
+            rankingCreated.setJogo(jogo);
 
-            rankingDAO.save(pontuacao);
-        }
+            rankingCreated.setPontuacao(ranking.getPontuacao());
+
+            return rankingDAO.save(rankingCreated);
     }
     @Override
-    public List<Ranking> pontuacaoJogador(Integer id) {
-        Jogador jogador = jogadorDAO.findById(id)
-                .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
-
-        // Convertendo o conjunto para uma lista
-        List<Ranking> pontuacoes = jogador.getRanking()
-                .stream()
-                .collect(Collectors.toList());
-
-        return pontuacoes;
+    public List<Ranking> pontuacaoJogador(Integer id, String nickname) {
+        if (id != null) {
+            Jogador jogador = jogadorDAO.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
+            return jogador.getRanking();
+        } else if (nickname != null && !nickname.isEmpty()) {
+            Jogador jogador = (Jogador) jogadorDAO.findByNicknameDoJogador(nickname)
+                    .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
+            return jogador.getRanking();
+        } else {
+            throw new IllegalArgumentException("ID ou Nickname deve ser fornecido");
+        }
     }
+
     @Override
     public List<Ranking> pontuacaoGeral(Integer id) {
         Jogos jogo = jogosDAO.findById(id)

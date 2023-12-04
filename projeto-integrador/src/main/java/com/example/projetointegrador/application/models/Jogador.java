@@ -1,5 +1,6 @@
 package com.example.projetointegrador.application.models;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,11 +25,14 @@ public class Jogador {
     @Column(name="email_jogador", length = 50)
     @NotNull
     private String emailDoJogador;
+
     @NotNull
     @Column(name="nickname_jogador", length = 20)
     private String nicknameDoJogador;
     @JsonIgnore
     @OneToMany(mappedBy = "jogador", cascade = CascadeType.MERGE)
-    private Set<Ranking> ranking;
+    private List<Ranking> ranking;
+
+
 
 }

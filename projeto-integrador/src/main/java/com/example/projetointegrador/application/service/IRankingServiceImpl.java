@@ -6,8 +6,11 @@ import java.util.List;
 
 public interface IRankingServiceImpl {
 
-    void inserirPontuacao(Ranking pontuacao);
-    List<Ranking> pontuacaoJogador(Integer id);
+
+    Ranking criarRanking(Ranking ranking);
+
+    List<Ranking> pontuacaoJogador(Integer id, String nickname);
+
     List<Ranking> pontuacaoGeral(Integer id);
     void excluirPontuacao(Integer id);
 
