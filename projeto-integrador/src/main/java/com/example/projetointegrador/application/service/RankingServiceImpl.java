@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RankingServiceImpl implements IRankingServiceImpl{
@@ -43,7 +44,13 @@ public class RankingServiceImpl implements IRankingServiceImpl{
     public List<Ranking> pontuacaoJogador(Integer id) {
         Jogador jogador = jogadorDAO.findById(id)
                 .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
-        return (List<Ranking>) jogador.getRanking();
+
+        // Convertendo o conjunto para uma lista
+        List<Ranking> pontuacoes = jogador.getRanking()
+                .stream()
+                .collect(Collectors.toList());
+
+        return pontuacoes;
     }
     @Override
     public List<Ranking> pontuacaoGeral(Integer id) {
