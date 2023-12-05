@@ -25,6 +25,8 @@ public class RankingServiceImpl implements IRankingServiceImpl{
     @Override
     public Ranking criarRanking(Ranking ranking) {
 
+
+
             Jogador jogador = jogadorDAO.findById(ranking.getJogador().getId().intValue())
                     .orElseThrow(() -> new EntityNotFoundException("Jogador não encontrado"));
 
@@ -43,14 +45,14 @@ public class RankingServiceImpl implements IRankingServiceImpl{
     public List<Ranking> pontuacaoJogador(Integer id, String nickname) {
         if (id != null) {
             Jogador jogador = jogadorDAO.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
+                    .orElseThrow(() -> new RuntimeException());
             return jogador.getRanking();
         } else if (nickname != null && !nickname.isEmpty()) {
             Jogador jogador = (Jogador) jogadorDAO.findByNicknameDoJogador(nickname)
-                    .orElseThrow(() -> new RuntimeException("Jogador não encontrado"));
+                    .orElseThrow(() -> new RuntimeException());
             return jogador.getRanking();
         } else {
-            throw new IllegalArgumentException("ID ou Nickname deve ser fornecido");
+            throw new IllegalArgumentException();
         }
     }
 

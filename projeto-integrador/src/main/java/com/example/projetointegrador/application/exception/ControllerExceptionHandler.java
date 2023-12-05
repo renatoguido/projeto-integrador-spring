@@ -25,7 +25,7 @@ public class ControllerExceptionHandler {
   // tratamento genérico de exceções não especificadas.
   @ExceptionHandler
   public ResponseEntity<ErrorDTO> handleRuntimeException(RuntimeException e){
-    ErrorDTO error = new ErrorDTO(LocalDateTime.now(), 500, "Jogador não encontrado");
+    ErrorDTO error = new ErrorDTO(LocalDateTime.now(), 500, "Jogador com o nickname já criado ou o jogador não foi encontrado.");
     return  ResponseEntity.status(500).body(error);
   }
 
@@ -46,7 +46,7 @@ public class ControllerExceptionHandler {
   //argumentos diferentes do metodos
   @ExceptionHandler
   public ResponseEntity<ErrorDTO> handleIllegalArgumentException(IllegalArgumentException e){
-    ErrorDTO error = new ErrorDTO(LocalDateTime.now(), 400, "Argumentos inválidos. Verifique os parâmetros fornecidos.");
+    ErrorDTO error = new ErrorDTO(LocalDateTime.now(), 400, "Argumentos inválidos. ID ou Nickname deve ser fornecido.");
     return  ResponseEntity.status(400).body(error);
   }
 

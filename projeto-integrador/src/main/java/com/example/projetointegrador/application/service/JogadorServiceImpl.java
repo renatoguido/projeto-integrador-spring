@@ -14,9 +14,18 @@ public class JogadorServiceImpl implements IJogadorServiceImpl{
     @Autowired
     private JogadorDAO jogadorDAO;
 
+    @Override
     public Jogador criarJogador(Jogador novo) {
+        String nickname = novo.getNicknameDoJogador();
+
+        Optional<Object> JogadorExistente = jogadorDAO.findByNicknameDoJogador(nickname);
+        if (JogadorExistente.isPresent()) {
+            throw new RuntimeException();
+        }
+
         return jogadorDAO.save(novo);
     }
+
 
     @Override
     public Jogador atualizarJogador(Jogador jogadorAtualizado, Integer id) {
